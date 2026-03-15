@@ -1,0 +1,23 @@
+{
+  "projectName": "ts-scrapy",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "pnpm",
+  "includeExamples": false,
+  "tailwind": true,
+  "addOnOptions": {},
+  "envVarValues": {
+    "CONVEX_DEPLOYMENT": "ts-scrapy",
+    "VITE_CONVEX_URL": "https://useful-cod-153.convex.cloud"
+  },
+  "git": true,
+  "routerOnly": false,
+  "version": 1,
+  "framework": "react",
+  "chosenAddOns": [
+    "eslint",
+    "cloudflare",
+    "convex",
+    "shadcn"
+  ]
+}
