@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
+import { Sun, Moon, MoonIcon, Computer } from 'lucide-react'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
 
@@ -76,7 +77,13 @@ export default function ThemeToggle() {
       title={label}
       variant="outline"
     >
-      {mode === 'auto' ? 'Auto' : mode === 'dark' ? 'Dark' : 'Light'}
+      {mode === 'auto' ? (
+        <Computer />
+      ) : mode === 'dark' ? (
+        <MoonIcon />
+      ) : (
+        <Sun />
+      )}
     </Button>
   )
 }
