@@ -1,6 +1,6 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import ThemeToggle from './ThemeToggle'
-import { Button, buttonVariants } from './ui/button'
+import ThemeToggle from '../common/ThemeToggle'
+import { Button, buttonVariants } from '../ui/button'
 import { LogIn, LogOut, UserPlus } from 'lucide-react'
 import { authClient } from '#/lib/auth-client'
 import { toast } from 'sonner'

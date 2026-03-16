@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { Sun, Moon, MoonIcon, Computer } from 'lucide-react'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
