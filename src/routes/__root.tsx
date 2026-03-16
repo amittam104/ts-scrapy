@@ -1,14 +1,33 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Outlet,
+  Scripts,
+  createRootRouteWithContext,
+  useRouteContext,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import ConvexProvider from '../integrations/convex/provider'
 import { Toaster } from '@/components/ui/sonner'
 
 import appCss from '../styles.css?url'
+import { createServerFn } from '@tanstack/react-start'
+import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react'
+import type { ConvexQueryClient } from '@convex-dev/react-query'
+import { getToken } from '#/lib/auth-server'
+import { authClient } from '#/lib/auth-client'
+import type { QueryClient } from '@tanstack/react-query'
 
 const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
 
-export const Route = createRootRoute({
+// Get auth information for SSR using available cookies
+const getAuth = createServerFn({ method: 'GET' }).handler(async () => {
+  return await getToken()
+})
+
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient
+  convexQueryClient: ConvexQueryClient
+}>()({
   head: () => ({
     meta: [
       {
@@ -23,14 +42,41 @@ export const Route = createRootRoute({
       },
     ],
     links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', href: '/favicon.ico' },
     ],
   }),
-  shellComponent: RootDocument,
+  beforeLoad: async (ctx) => {
+    const token = await getAuth()
+    // all queries, mutations and actions through TanStack Query will be
+    // authenticated during SSR if we have a valid token
+    if (token) {
+      // During SSR only (the only time serverHttpClient exists),
+      // set the auth token to make HTTP queries with.
+      ctx.context.convexQueryClient.serverHttpClient?.setAuth(token)
+    }
+    return {
+      isAuthenticated: !!token,
+      token,
+    }
+  },
+  component: RootComponent,
 })
+
+function RootComponent() {
+  const context = useRouteContext({ from: Route.id })
+  return (
+    <ConvexBetterAuthProvider
+      client={context.convexQueryClient.convexClient}
+      authClient={authClient}
+      initialToken={context.token}
+    >
+      <RootDocument>
+        <Outlet />
+      </RootDocument>
+    </ConvexBetterAuthProvider>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
@@ -40,21 +86,19 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased wrap:anywhere">
-        <ConvexProvider>
-          {children}
-          <Toaster />
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-        </ConvexProvider>
+        {children}
+        <Toaster />
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
         <Scripts />
       </body>
     </html>

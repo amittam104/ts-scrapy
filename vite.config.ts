@@ -9,6 +9,9 @@ import tailwindcss from '@tailwindcss/vite'
 import { cloudflare } from '@cloudflare/vite-plugin'
 
 const config = defineConfig({
+  ssr: {
+    noExternal: ['@convex-dev/better-auth'],
+  },
   plugins: [
     devtools(),
     cloudflare({ viteEnvironment: { name: 'ssr' } }),
