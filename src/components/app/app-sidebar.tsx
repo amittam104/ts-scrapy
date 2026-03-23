@@ -149,17 +149,17 @@ import type { NavPrimaryProps } from '#/lib/types'
 const navItems: NavPrimaryProps['items'] = [
   {
     title: 'Items',
-    to: '/items',
+    to: '/dashboard/items',
     icon: Bookmark,
   },
   {
     title: 'Import',
-    to: '/import',
+    to: '/dashboard/import',
     icon: Import,
   },
   {
     title: 'Discover',
-    to: '/discover',
+    to: '/dashboard/discover',
     icon: Compass,
   },
 ]
