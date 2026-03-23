@@ -1,13 +1,8 @@
 import * as React from 'react'
 
-import { SearchForm } from '#/components/app/search-form'
-import { VersionSwitcher } from '#/components/app/version-switcher'
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -15,139 +10,159 @@ import {
   SidebarRail,
 } from '#/components/ui/sidebar'
 import { Link } from '@tanstack/react-router'
-import { SquaresExclude } from 'lucide-react'
+import { Bookmark, Compass, Import, SquaresExclude } from 'lucide-react'
+import { NavPrimary } from '../common/NavPrimary'
+import type { NavPrimaryProps } from '#/lib/types'
 
 // This is sample data.
-const data = {
-  versions: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
-  navMain: [
-    {
-      title: 'Getting Started',
-      url: '#',
-      items: [
-        {
-          title: 'Installation',
-          url: '#',
-        },
-        {
-          title: 'Project Structure',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Build Your Application',
-      url: '#',
-      items: [
-        {
-          title: 'Routing',
-          url: '#',
-        },
-        {
-          title: 'Data Fetching',
-          url: '#',
-          isActive: true,
-        },
-        {
-          title: 'Rendering',
-          url: '#',
-        },
-        {
-          title: 'Caching',
-          url: '#',
-        },
-        {
-          title: 'Styling',
-          url: '#',
-        },
-        {
-          title: 'Optimizing',
-          url: '#',
-        },
-        {
-          title: 'Configuring',
-          url: '#',
-        },
-        {
-          title: 'Testing',
-          url: '#',
-        },
-        {
-          title: 'Authentication',
-          url: '#',
-        },
-        {
-          title: 'Deploying',
-          url: '#',
-        },
-        {
-          title: 'Upgrading',
-          url: '#',
-        },
-        {
-          title: 'Examples',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'API Reference',
-      url: '#',
-      items: [
-        {
-          title: 'Components',
-          url: '#',
-        },
-        {
-          title: 'File Conventions',
-          url: '#',
-        },
-        {
-          title: 'Functions',
-          url: '#',
-        },
-        {
-          title: 'next.config.js Options',
-          url: '#',
-        },
-        {
-          title: 'CLI',
-          url: '#',
-        },
-        {
-          title: 'Edge Runtime',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Architecture',
-      url: '#',
-      items: [
-        {
-          title: 'Accessibility',
-          url: '#',
-        },
-        {
-          title: 'Fast Refresh',
-          url: '#',
-        },
-        {
-          title: 'Next.js Compiler',
-          url: '#',
-        },
-        {
-          title: 'Supported Browsers',
-          url: '#',
-        },
-        {
-          title: 'Turbopack',
-          url: '#',
-        },
-      ],
-    },
-  ],
-}
+// const data = {
+//   versions: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
+//   navMain: [
+//     {
+//       title: 'Getting Started',
+//       url: '#',
+//       items: [
+//         {
+//           title: 'Installation',
+//           url: '#',
+//         },
+//         {
+//           title: 'Project Structure',
+//           url: '#',
+//         },
+//       ],
+//     },
+//     {
+//       title: 'Build Your Application',
+//       url: '#',
+//       items: [
+//         {
+//           title: 'Routing',
+//           url: '#',
+//         },
+//         {
+//           title: 'Data Fetching',
+//           url: '#',
+//           isActive: true,
+//         },
+//         {
+//           title: 'Rendering',
+//           url: '#',
+//         },
+//         {
+//           title: 'Caching',
+//           url: '#',
+//         },
+//         {
+//           title: 'Styling',
+//           url: '#',
+//         },
+//         {
+//           title: 'Optimizing',
+//           url: '#',
+//         },
+//         {
+//           title: 'Configuring',
+//           url: '#',
+//         },
+//         {
+//           title: 'Testing',
+//           url: '#',
+//         },
+//         {
+//           title: 'Authentication',
+//           url: '#',
+//         },
+//         {
+//           title: 'Deploying',
+//           url: '#',
+//         },
+//         {
+//           title: 'Upgrading',
+//           url: '#',
+//         },
+//         {
+//           title: 'Examples',
+//           url: '#',
+//         },
+//       ],
+//     },
+//     {
+//       title: 'API Reference',
+//       url: '#',
+//       items: [
+//         {
+//           title: 'Components',
+//           url: '#',
+//         },
+//         {
+//           title: 'File Conventions',
+//           url: '#',
+//         },
+//         {
+//           title: 'Functions',
+//           url: '#',
+//         },
+//         {
+//           title: 'next.config.js Options',
+//           url: '#',
+//         },
+//         {
+//           title: 'CLI',
+//           url: '#',
+//         },
+//         {
+//           title: 'Edge Runtime',
+//           url: '#',
+//         },
+//       ],
+//     },
+//     {
+//       title: 'Architecture',
+//       url: '#',
+//       items: [
+//         {
+//           title: 'Accessibility',
+//           url: '#',
+//         },
+//         {
+//           title: 'Fast Refresh',
+//           url: '#',
+//         },
+//         {
+//           title: 'Next.js Compiler',
+//           url: '#',
+//         },
+//         {
+//           title: 'Supported Browsers',
+//           url: '#',
+//         },
+//         {
+//           title: 'Turbopack',
+//           url: '#',
+//         },
+//       ],
+//     },
+//   ],
+// }
+
+const navItems: NavPrimaryProps['items'] = [
+  {
+    title: 'Items',
+    to: '/items',
+    icon: Bookmark,
+  },
+  {
+    title: 'Import',
+    to: '/import',
+    icon: Import,
+  },
+  {
+    title: 'Discover',
+    to: '/discover',
+    icon: Compass,
+  },
+]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -159,10 +174,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         /> */}
         <SidebarMenu>
           <SidebarMenuItem className="py-1">
-            <SidebarMenuButton>
-              <Link to="/" className="flex flex-row items-center gap-3">
-                <div className="bg-primary size-8 flex items-center justify-center rounded-md">
-                  <SquaresExclude className="text-white" />
+            <SidebarMenuButton className="py-2" asChild>
+              <Link
+                to="/"
+                className="flex w-full flex-row items-center gap-3 h-12"
+              >
+                <div className="bg-primary size-8 flex items-center justify-center rounded-md ">
+                  <SquaresExclude className="text-white size-4" />
                 </div>
                 <span className="text-lg font-semibold">Scrapy</span>
               </Link>
@@ -173,7 +191,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
+        {/* {data.navMain.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -188,7 +206,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-        ))}
+        ))} */}
+        <NavPrimary items={navItems} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
