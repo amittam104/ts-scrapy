@@ -14,6 +14,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '#/components/ui/sidebar'
+import { Link } from '@tanstack/react-router'
+import { SquaresExclude } from 'lucide-react'
 
 // This is sample data.
 const data = {
@@ -151,11 +153,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <VersionSwitcher
+        {/* <VersionSwitcher
           versions={data.versions}
           defaultVersion={data.versions[0]}
-        />
-        <SearchForm />
+        /> */}
+        <SidebarMenu>
+          <SidebarMenuItem className="py-1">
+            <SidebarMenuButton>
+              <Link to="/" className="flex flex-row items-center gap-3">
+                <div className="bg-primary size-8 flex items-center justify-center rounded-md">
+                  <SquaresExclude className="text-white" />
+                </div>
+                <span className="text-lg font-semibold">Scrapy</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        {/* <SearchForm /> */}
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
