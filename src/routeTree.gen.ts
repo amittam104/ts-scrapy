@@ -14,6 +14,8 @@ import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardItemsIndexRouteImport } from './routes/dashboard/items/index'
+import { Route as DashboardImportIndexRouteImport } from './routes/dashboard/import/index'
+import { Route as DashboardDiscoverIndexRouteImport } from './routes/dashboard/discover/index'
 import { Route as AuthSignupIndexRouteImport } from './routes/_auth/signup/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -42,6 +44,16 @@ const DashboardItemsIndexRoute = DashboardItemsIndexRouteImport.update({
   path: '/items/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardImportIndexRoute = DashboardImportIndexRouteImport.update({
+  id: '/import/',
+  path: '/import/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDiscoverIndexRoute = DashboardDiscoverIndexRouteImport.update({
+  id: '/discover/',
+  path: '/discover/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const AuthSignupIndexRoute = AuthSignupIndexRouteImport.update({
   id: '/signup/',
   path: '/signup/',
@@ -65,6 +77,8 @@ export interface FileRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/login/': typeof AuthLoginIndexRoute
   '/signup/': typeof AuthSignupIndexRoute
+  '/dashboard/discover/': typeof DashboardDiscoverIndexRoute
+  '/dashboard/import/': typeof DashboardImportIndexRoute
   '/dashboard/items/': typeof DashboardItemsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -73,6 +87,8 @@ export interface FileRoutesByTo {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/login': typeof AuthLoginIndexRoute
   '/signup': typeof AuthSignupIndexRoute
+  '/dashboard/discover': typeof DashboardDiscoverIndexRoute
+  '/dashboard/import': typeof DashboardImportIndexRoute
   '/dashboard/items': typeof DashboardItemsIndexRoute
 }
 export interface FileRoutesById {
@@ -84,6 +100,8 @@ export interface FileRoutesById {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_auth/signup/': typeof AuthSignupIndexRoute
+  '/dashboard/discover/': typeof DashboardDiscoverIndexRoute
+  '/dashboard/import/': typeof DashboardImportIndexRoute
   '/dashboard/items/': typeof DashboardItemsIndexRoute
 }
 export interface FileRouteTypes {
@@ -95,6 +113,8 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/login/'
     | '/signup/'
+    | '/dashboard/discover/'
+    | '/dashboard/import/'
     | '/dashboard/items/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -103,6 +123,8 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/login'
     | '/signup'
+    | '/dashboard/discover'
+    | '/dashboard/import'
     | '/dashboard/items'
   id:
     | '__root__'
@@ -113,6 +135,8 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/_auth/login/'
     | '/_auth/signup/'
+    | '/dashboard/discover/'
+    | '/dashboard/import/'
     | '/dashboard/items/'
   fileRoutesById: FileRoutesById
 }
@@ -160,6 +184,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardItemsIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/import/': {
+      id: '/dashboard/import/'
+      path: '/import'
+      fullPath: '/dashboard/import/'
+      preLoaderRoute: typeof DashboardImportIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/discover/': {
+      id: '/dashboard/discover/'
+      path: '/discover'
+      fullPath: '/dashboard/discover/'
+      preLoaderRoute: typeof DashboardDiscoverIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/_auth/signup/': {
       id: '/_auth/signup/'
       path: '/signup'
@@ -200,11 +238,15 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 
 interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardDiscoverIndexRoute: typeof DashboardDiscoverIndexRoute
+  DashboardImportIndexRoute: typeof DashboardImportIndexRoute
   DashboardItemsIndexRoute: typeof DashboardItemsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardDiscoverIndexRoute: DashboardDiscoverIndexRoute,
+  DashboardImportIndexRoute: DashboardImportIndexRoute,
   DashboardItemsIndexRoute: DashboardItemsIndexRoute,
 }
 
