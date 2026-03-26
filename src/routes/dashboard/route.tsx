@@ -10,9 +10,8 @@ export const Route = createFileRoute('/dashboard')({
 })
 
 function RouteComponent() {
-  const { session, user } = Route.useLoaderData()
+  const { user } = Route.useLoaderData()
 
-  console.log('user data from server function', user)
   return (
     <SidebarProvider>
       <AppSidebar user={user} />

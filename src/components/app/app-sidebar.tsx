@@ -11,151 +11,8 @@ import {
 import { Link, linkOptions } from '@tanstack/react-router'
 import { Bookmark, Compass, Import, SquaresExclude } from 'lucide-react'
 import { NavPrimary } from '../common/NavPrimary'
-import type { NavPrimaryProps } from '#/lib/types'
+import type { NavPrimaryProps, NavUserProps } from '#/lib/types'
 import { NavUser } from './nav-user'
-import type { User } from 'better-auth'
-
-type AppSidebarUser = {
-  name: string
-  email: string
-  image?: string | null
-}
-
-// const data = {
-//   versions: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
-//   user: {
-//     name: 'shadcn',
-//     email: 'm@example.com',
-//     avatar: '/avatars/shadcn.jpg',
-//   },
-//   navMain: [
-//     {
-//       title: 'Getting Started',
-//       url: '#',
-//       items: [
-//         {
-//           title: 'Installation',
-//           url: '#',
-//         },
-//         {
-//           title: 'Project Structure',
-//           url: '#',
-//         },
-//       ],
-//     },
-//     {
-//       title: 'Build Your Application',
-//       url: '#',
-//       items: [
-//         {
-//           title: 'Routing',
-//           url: '#',
-//         },
-//         {
-//           title: 'Data Fetching',
-//           url: '#',
-//           isActive: true,
-//         },
-//         {
-//           title: 'Rendering',
-//           url: '#',
-//         },
-//         {
-//           title: 'Caching',
-//           url: '#',
-//         },
-//         {
-//           title: 'Styling',
-//           url: '#',
-//         },
-//         {
-//           title: 'Optimizing',
-//           url: '#',
-//         },
-//         {
-//           title: 'Configuring',
-//           url: '#',
-//         },
-//         {
-//           title: 'Testing',
-//           url: '#',
-//         },
-//         {
-//           title: 'Authentication',
-//           url: '#',
-//         },
-//         {
-//           title: 'Deploying',
-//           url: '#',
-//         },
-//         {
-//           title: 'Upgrading',
-//           url: '#',
-//         },
-//         {
-//           title: 'Examples',
-//           url: '#',
-//         },
-//       ],
-//     },
-//     {
-//       title: 'API Reference',
-//       url: '#',
-//       items: [
-//         {
-//           title: 'Components',
-//           url: '#',
-//         },
-//         {
-//           title: 'File Conventions',
-//           url: '#',
-//         },
-//         {
-//           title: 'Functions',
-//           url: '#',
-//         },
-//         {
-//           title: 'next.config.js Options',
-//           url: '#',
-//         },
-//         {
-//           title: 'CLI',
-//           url: '#',
-//         },
-//         {
-//           title: 'Edge Runtime',
-//           url: '#',
-//         },
-//       ],
-//     },
-//     {
-//       title: 'Architecture',
-//       url: '#',
-//       items: [
-//         {
-//           title: 'Accessibility',
-//           url: '#',
-//         },
-//         {
-//           title: 'Fast Refresh',
-//           url: '#',
-//         },
-//         {
-//           title: 'Next.js Compiler',
-//           url: '#',
-//         },
-//         {
-//           title: 'Supported Browsers',
-//           url: '#',
-//         },
-//         {
-//           title: 'Turbopack',
-//           url: '#',
-//         },
-//       ],
-//     },
-//   ],
-// }
 
 const navItems: NavPrimaryProps['items'] = linkOptions([
   {
@@ -177,14 +34,10 @@ const navItems: NavPrimaryProps['items'] = linkOptions([
     activeOptions: { exact: false },
   },
 ])
-export function AppSidebar({ user }: { user: User }) {
+export function AppSidebar({ user }: NavUserProps) {
   return (
     <Sidebar>
       <SidebarHeader>
-        {/* <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        /> */}
         <SidebarMenu>
           <SidebarMenuItem className="py-1">
             <SidebarMenuButton className="py-2" asChild>
